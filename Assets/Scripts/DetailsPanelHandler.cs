@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class DetailsPanelHandler : MonoBehaviour
 {
-    public PlayerHandler player;
+    public NpcHandler target;
 
     public TextMeshProUGUI npcLevel;
     public TextMeshProUGUI npcName;
@@ -21,27 +21,27 @@ public class DetailsPanelHandler : MonoBehaviour
     void Start()
     {
         healthBar.color = healthColor;
-        powerBar.color = SelectEnergyColorBasedOnPowerType();
 
-        npcLevel.text = player.playerLevel.ToString();
-        npcName.text = player.playerName;
-
-        StartCoroutine(UpdateHealthAndPower());
+        if (target)
+        {
+            UpdateData(target);
+            StartCoroutine(UpdateHealthAndPower());
+        }
     }
 
     IEnumerator UpdateHealthAndPower()
     {
         while (true)
         {
-            healthBar.fillAmount = player.GetHealthPct();
-            powerBar.fillAmount = player.GetPowerPct();
+            healthBar.fillAmount = target.GetHealthPct();
+            powerBar.fillAmount = target.GetPowerPct();
             yield return null;
         }
     }
 
-    Color SelectEnergyColorBasedOnPowerType()
+    Color SelectEnergyColorBasedOnPowerType(PowerTypes powerType)
     {
-        switch (player.powerType)
+        switch (powerType)
         {
             case PowerTypes.Power_Mana:
                 return Color.blue;
@@ -52,5 +52,23 @@ public class DetailsPanelHandler : MonoBehaviour
             default:
                 return Color.gray;
         }
+    }
+
+    public void OnDisable()
+    {
+        StopCoroutine(UpdateHealthAndPower());
+    }
+
+    public void OnEnable()
+    {
+        StartCoroutine(UpdateHealthAndPower());
+    }
+
+    public void UpdateData(NpcHandler npc)
+    {
+        target = npc;
+        npcLevel.text = target.level.ToString();
+        npcName.text = target.name;
+        powerBar.color = SelectEnergyColorBasedOnPowerType(target.powerType);
     }
 }

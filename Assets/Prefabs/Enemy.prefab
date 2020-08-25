@@ -295,7 +295,6 @@ GameObject:
   - component: {fileID: 6738881118435849693}
   - component: {fileID: 6738881118435849694}
   - component: {fileID: 6738881118435849695}
-  - component: {fileID: 6738881118435849680}
   - component: {fileID: 6738881118435849681}
   - component: {fileID: 6738881118435849682}
   m_Layer: 0
@@ -367,19 +366,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &6738881118435849680
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6738881118435849683}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &6738881118435849681
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -405,14 +391,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c010c3468ea422488879cbf37618953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 6738881118543276992}
-  maxHealth: 100
-  health: 0
   secondsForIgnore: 5
   moveSpeed: 5
   reachDistance: 3
-  level: 90
-  textLevel: {fileID: 6738881117769143542}
 --- !u!1 &6738881118543276997
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,7 +507,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5a4d787859ec04c9d0488b595fe470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npc: {fileID: 5814494710124626412}
   healthBar: {fileID: 6738881117407363052}
+  levelText: {fileID: 6738881117769143542}
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &6738881118849895285
 GameObject:
@@ -537,9 +520,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6738881118849895284}
+  - component: {fileID: 8045122859972698929}
+  - component: {fileID: 5814494710124626412}
+  - component: {fileID: 3344415350370107442}
   m_Layer: 9
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -559,3 +545,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8045122859972698929
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6738881118849895285}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5814494710124626412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6738881118849895285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0814a9f487d27c4486420552b1cec20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 10
+  name: Enemy
+  powerType: 0
+  healthBar: {fileID: 6738881118543276992}
+  maxHealth: 100
+  health: 0
+  maxPower: 100
+  power: 0
+  powerRegenRate: 1
+  enemiesMask:
+    serializedVersion: 2
+    m_Bits: 512
+  goldPrefab: {fileID: 1950871307682000, guid: 01348926c7cbb3347a006c37204131c3, type: 3}
+--- !u!54 &3344415350370107442
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6738881118849895285}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

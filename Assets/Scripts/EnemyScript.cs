@@ -9,26 +9,15 @@ public class EnemyScript : MonoBehaviour
 {
     private Transform target;
 
-    public HealthbarHandler healthBar;
-
-    public float maxHealth = 100;
-    public float health;
-
     public float secondsForIgnore = 5.0f;
     public float moveSpeed = 5.0f;
     public float reachDistance = 3.0f;
-
-    public int level = 90;
-
-    public TextMeshProUGUI textLevel;
 
     private bool active = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        health = maxHealth;
-        textLevel.text = level.ToString();
         active = true;
     }
 
@@ -42,11 +31,16 @@ public class EnemyScript : MonoBehaviour
     {
         while (active)
         {
-            float dist = Vector3.Distance(transform.position, target.position);
+            float dist = Vector3.Distance(transform.parent.position, target.position);
             if (dist > reachDistance)
             {
-                transform.LookAt(target);
-                transform.position += transform.forward * moveSpeed * Time.deltaTime;
+                float y = 0.0f;
+                if (Physics.Raycast(transform.parent.position, -transform.parent.up, out RaycastHit hit))
+                    y = hit.point.y;
+
+                transform.parent.LookAt(target);
+                transform.parent.eulerAngles = new Vector3(0.0f, transform.rotation.eulerAngles.y, 0.0f);
+                transform.parent.position += transform.forward * moveSpeed * Time.deltaTime;
             }
 
             yield return null;
@@ -76,24 +70,5 @@ public class EnemyScript : MonoBehaviour
 
         if (!target)
             StartAttack(other.transform);
-    }
-
-    public void Die()
-    {
-        active = false;
-        gameObject.SetActive(false);
-    }
-
-    public void TakeDamage(float damage)
-    {
-        health = Mathf.Clamp(health - damage, 0, maxHealth);
-
-        float healthPct = health / maxHealth;
-        healthBar.UpdateHealthPct(healthPct);
-
-        if (health <= 0.0f)
-        {
-            Die();
-        }
     }
 }
